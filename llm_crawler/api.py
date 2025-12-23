@@ -16,6 +16,9 @@ class CourseSummaryResponse(BaseModel):
     type_name: str
     curi_no: str
     curi_nm: str
+    dept_m_alias:str   # 학과
+    year:str          # 년도
+    smt_cd:str
 
 @app.post(
     "/crawl",
@@ -25,10 +28,9 @@ class CourseSummaryResponse(BaseModel):
 def crawl(req: LoginRequest):
     # 1) 크롤링 수행
     login = LoginInfo(
-        user_id=req.user_id,
-        password=req.password
-    )
-
+    user_id=req.user_id,
+    password=req.password
+)
     status, raw_data = perform_login_and_fetch(login)
     if status is not CrawlStatus.SUCCESS or not isinstance(raw_data, dict):
         # 2) 실패 시 500 에러 반환
@@ -41,5 +43,9 @@ def crawl(req: LoginRequest):
         cdt=s.cdt,
         type_name=s.type_name,
         curi_no=s.curi_no,
-        curi_nm=s.curi_nm
+        curi_nm=s.curi_nm,
+        dept_m_alias=s.dept_m_alias,   # 학과
+        year=s.year,           # 년도
+        smt_cd=s.smt_cd
+
     ) for s in summaries]

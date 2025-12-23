@@ -12,3 +12,6 @@ class CourseRecord:
     type_name: str
     curi_no: str
     curi_nm: str
+    dept_m_alias: str     # 학과
+    year: str        # 년도
+    smt_cd: str
