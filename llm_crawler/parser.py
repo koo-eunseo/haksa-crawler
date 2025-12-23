@@ -22,7 +22,10 @@ def parse_dl_main(json_data: Dict[str, Any]) -> List[CourseRecord]:
             cdt=cdt,
             type_name=item.get("CURI_TYPE_CD_NM", ""),
             curi_no=item.get("CURI_NO", ""),
-            curi_nm=item.get("CURI_NM", "")
+            curi_nm=item.get("CURI_NM", ""),
+            dept_m_alias=item.get("DEPT_M_ALIAS", ""),   # 학과
+            year=item.get("YEAR", ""),           # 년도
+            smt_cd=item.get("SMT_CD_NM", "")
         )
         records.append(record)
     return records
