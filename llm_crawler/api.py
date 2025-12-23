@@ -3,6 +3,7 @@ from pydantic import BaseModel, Field
 from llm_crawler.crawler import perform_login_and_fetch
 from llm_crawler.parser import parse_dl_main
 from llm_crawler.enums import CrawlStatus
+from llm_crawler.dto import LoginInfo
 
 app = FastAPI(title="LLM Crawler API", version="1.0")
 
@@ -23,7 +24,12 @@ class CourseSummaryResponse(BaseModel):
 )
 def crawl(req: LoginRequest):
     # 1) 크롤링 수행
-    status, raw_data = perform_login_and_fetch(req)
+    login = LoginInfo(
+        user_id=req.user_id,
+        password=req.password
+    )
+
+    status, raw_data = perform_login_and_fetch(login)
     if status is not CrawlStatus.SUCCESS or not isinstance(raw_data, dict):
         # 2) 실패 시 500 에러 반환
         raise HTTPException(status_code=400, detail=raw_data)
